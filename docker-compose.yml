@@ -29,7 +29,7 @@ services:
     networks:
       - inventario_network
     environment:
-      - DB_HOST=sqlserver
+      - DB_HOST=30.30.3.62
       - DB_NAME=InventarioDB
       - DB_USER=sa
       - DB_PASSWORD=Admin123.
