@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 // Configuración de la base de datos
-$serverName = getenv('DB_HOST') ?: "sqlserver";
+$serverName = getenv('DB_HOST') ?: "30.30.3.62";
 $database = getenv('DB_NAME') ?: "InventarioDB";
 $username = getenv('DB_USER') ?: "sa";
 $password = getenv('DB_PASSWORD') ?: "Admin123.";

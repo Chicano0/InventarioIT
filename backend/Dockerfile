@@ -7,12 +7,14 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     gnupg2 \
     curl \
+    lsb-release \
     apt-transport-https \
     && rm -rf /var/lib/apt/lists/*
 
-# Agregar repositorio de Microsoft
-RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
-    && curl https://packages.microsoft.com/config/debian/11/prod.list > /etc/apt/sources.list.d/mssql-release.list \
+# Agregar repositorio de Microsoft (método moderno)
+RUN curl -sSL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /etc/apt/trusted.gpg.d/microsoft.gpg \
+    && echo "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/microsoft.gpg] https://packages.microsoft.com/debian/11/prod $(lsb_release -cs) main" \
+       > /etc/apt/sources.list.d/mssql-release.list \
     && apt-get update
 
 # Instalar Microsoft ODBC Driver 18 for SQL Server
