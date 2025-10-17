@@ -1,14 +1,12 @@
-version: '3.8'
-
 services:
-  # SQL Server Database
+  # SQL Server
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: sqlserver_inventario
     environment:
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=Admin123.
-      - MSSQL_PID=Developer
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "Admin123."
+      MSSQL_PID: "Developer"
     ports:
       - "1433:1433"
     volumes:
@@ -16,7 +14,7 @@ services:
     networks:
       - inventario_network
 
-  # PHP Backend
+  # Backend PHP
   backend:
     build: ./backend
     container_name: backend_inventario
@@ -29,14 +27,14 @@ services:
     networks:
       - inventario_network
     environment:
-      - DB_HOST=30.30.3.62
-      - DB_NAME=InventarioDB
-      - DB_USER=sa
-      - DB_PASSWORD=Admin123.
+      DB_HOST: "sqlserver"
+      DB_NAME: "InventarioDB"
+      DB_USER: "sa"
+      DB_PASSWORD: "Admin123."
 
-  # Nginx Frontend
+  # Frontend Nginx
   frontend:
-    build: ./frontend
+    image: nginx:1.29
     container_name: frontend_inventario
     depends_on:
       - backend
@@ -44,6 +42,7 @@ services:
       - "8080:80"
     volumes:
       - ./frontend:/usr/share/nginx/html
+      - ./frontend/nginx.conf:/etc/nginx/nginx.conf
     networks:
       - inventario_network
 
